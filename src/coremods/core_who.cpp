@@ -1,6 +1,8 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
+ *   Copyright (C) 2016 Daniel Oaks <daniel@danieloaks.net>
+ *   Copyright (C) 2014 Adam <Adam@anope.org>
  *   Copyright (C) 2009-2010 Daniel De Graaf <danieldg@inspircd.org>
  *   Copyright (C) 2007-2008 Robin Burchell <robin+git@viroteck.net>
  *
@@ -40,7 +42,7 @@ class CommandWho : public Command
 	ChanModeReference privatemode;
 	UserModeReference invisiblemode;
 
-	Membership* get_first_visible_channel(User* u)
+	Membership* GetFirstVisibleChannel(User* u)
 	{
 		for (User::ChanList::iterator i = u->chans.begin(); i != u->chans.end(); ++i)
 		{
@@ -189,7 +191,7 @@ bool CommandWho::CanView(Channel* chan, User* user)
 void CommandWho::SendWhoLine(User* user, const std::vector<std::string>& parms, Membership* memb, User* u, std::vector<Numeric::Numeric>& whoresults)
 {
 	if (!memb)
-		memb = get_first_visible_channel(u);
+		memb = GetFirstVisibleChannel(u);
 
 	Numeric::Numeric wholine(RPL_WHOREPLY);
 	wholine.push(memb ? memb->chan->name : "*").push(u->ident);
